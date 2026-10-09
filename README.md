@@ -1,3 +1,3 @@
 # Petofi_panzio
 
-szius
+szia
