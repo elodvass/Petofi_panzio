@@ -1,3 +1,1 @@
-# Petofi_panzio
-
-szia
+Petőfi Panzió
