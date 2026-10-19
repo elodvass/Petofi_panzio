@@ -1,1 +1,1 @@
-Petőfi Panzió
+**Petőfi Panzió**
