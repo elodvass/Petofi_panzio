@@ -1,17 +1,17 @@
 # User Story
 
-### Vendég belép
+### Vendég
 * A vendég megnézi a szobákat és az étlapot.
 * A vendég kiválaszt egy szobát és megadja a dátumot.
 * A vendég választ hozzá étkezést (reggeli, ebéd, vacsora) és menüt.
 * A vendég lefoglalja a szobát (elmentődik az adatbázisba).
 
-### Konyhás belép
+### Konyhás
 * A konyhás megnézi az aznapi étkezési igényeket és rendeléseket.
 * A konyhás látja, hogy melyik menüből mennyi kell a szobákhoz.
 * A konyhás bejelöli, ha egy étel elkészült vagy kiadták.
 
-### Adminisztrátor belép
+### Adminisztrátor
 * Az adminisztrátor hozzáad, módosít vagy töröl egy szobát.
 * Az adminisztrátor beállítja a napi menüt és az étlapot.
 * Az adminisztrátor megnézi az összes beérkezett foglalást.
