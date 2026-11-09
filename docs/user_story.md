@@ -1,21 +1,45 @@
 # User Story
 
-### Vendég
-* A vendég belép
-* A vendég megnézi a szobákat és az étlapot.
-* A vendég kiválaszt egy szobát és megadja a dátumot.
-* A vendég választ hozzá étkezést (reggeli, ebéd, vacsora) és menüt.
-* A vendég lefoglalja a szobát (elmentődik az adatbázisba).
+## Jogosultságok áttekintése
 
-### Konyhás
-* A konyhás belép
-* A konyhás megnézi az aznapi étkezési igényeket és rendeléseket.
-* A konyhás látja, hogy melyik menüből mennyi kell a szobákhoz.
-* A konyhás bejelöli, ha egy étel elkészült vagy kiadták.
+| Funkció | Vendég | Konyhás | Admin |
+| --- | :---: | :---: | :---: |
+| Szobák és étlap megtekintése | ✅ | ❌ | ✅ |
+| Szoba és dátum kiválasztása | ✅ | ❌ | ✅ |
+| Étkezés és menü kiválasztása | ✅ | ❌ | ✅ |
+| Szobafoglalás rögzítése | ✅ | ❌ | ✅ |
+| Aznapi étkezési igények és rendelések lekérdezése | ❌ | ✅ | ✅ |
+| Szobákhoz tartozó menük és adagok megtekintése | ❌ | ✅ | ✅ |
+| Ételek állapotának rögzítése (elkészült / kiadva) | ❌ | ✅ | ✅ |
+| Szobák hozzáadása, módosítása és törlése | ❌ | ❌ | ✅ |
+| Napi menü és étlap beállítása, módosítása | ❌ | ❌ | ✅ |
+| Összes beérkezett foglalás megtekintése | ❌ | ❌ | ✅ |
+| Foglalások és felhasználók törlése | ❌ | ❌ | ✅ |
 
-### Adminisztrátor
-* Az adminisztrátor belép
-* Az adminisztrátor hozzáad, módosít vagy töröl egy szobát.
-* Az adminisztrátor beállítja a napi menüt és az étlapot.
-* Az adminisztrátor megnézi az összes beérkezett foglalást.
-* Az adminisztrátor törölhet egy foglalást vagy egy felhasználót.
+## Vendég – profil
+
+* A felhasználó bejelentkezik
+* A felhasználó megnézi a szobákat és az étlapot
+* A felhasználó kiválaszt egy szobát és megadja a dátumot
+* A felhasználó választ hozzá étkezést (reggeli, ebéd, vacsora) és menüt
+* A felhasználó lefoglalja a szobát (elmentődik az adatbázisba)
+
+---
+
+## Konyhás – profil
+
+* A felhasználó bejelentkezik
+* A felhasználó megnézi az aznapi étkezési igényeket és rendeléseket
+* A felhasználó látja, hogy melyik menüből mennyi kell a szobákhoz
+* A felhasználó bejelöli, ha egy étel elkészült vagy kiadták
+
+---
+
+## Admin – profil
+
+* A felhasználó bejelentkezik
+* A felhasználó hozzáad, módosít vagy töröl egy szobát
+* A felhasználó beállítja a napi menüt és az étlapot
+* A felhasználó megnézi az összes beérkezett foglalást
+* A felhasználó törölhet egy foglalást vagy egy felhasználót
+
