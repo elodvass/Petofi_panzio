@@ -2,9 +2,9 @@
 
 ## Jogosultságok áttekintése
 
-| Funkció | Vendég | Konyhás | Admin |
+| Funkció | Vendég | Dolgozó | Admin |
 | --- | :---: | :---: | :---: |
-| Szobák és étlap megtekintése | ✅ | ❌ | ✅ |
+| Szobák megtekintése | ✅ | ❌ | ✅ |
 | Szoba és dátum kiválasztása | ✅ | ❌ | ✅ |
 | Étkezés és menü kiválasztása | ✅ | ❌ | ✅ |
 | Szobafoglalás rögzítése | ✅ | ❌ | ✅ |
@@ -18,20 +18,23 @@
 
 ## Vendég – profil
 
+* A felhasználó regisztrál
 * A felhasználó bejelentkezik
-* A felhasználó megnézi a szobákat és az étlapot
+* A felhasználó belép a szobakeresésbe
 * A felhasználó kiválaszt egy szobát és megadja a dátumot
-* A felhasználó választ hozzá étkezést (reggeli, ebéd, vacsora) és menüt
+* A felhasználó opcionálisan választhat hozzá étkezést (reggeli, ebéd, vacsora)
 * A felhasználó lefoglalja a szobát (elmentődik az adatbázisba)
 
 ---
 
-## Konyhás – profil
+## Dolgozó – profil
 
 * A felhasználó bejelentkezik
 * A felhasználó megnézi az aznapi étkezési igényeket és rendeléseket
 * A felhasználó látja, hogy melyik menüből mennyi kell a szobákhoz
+* A felhasználó látja a szobák állapotát
 * A felhasználó bejelöli, ha egy étel elkészült vagy kiadták
+* A felhasználó bejelöli, ha elkezdte vagy befejezte a takarítást
 
 ---
 
@@ -39,7 +42,7 @@
 
 * A felhasználó bejelentkezik
 * A felhasználó hozzáad, módosít vagy töröl egy szobát
-* A felhasználó beállítja a napi menüt és az étlapot
+* A felhasználó beállítja a napi menüt
 * A felhasználó megnézi az összes beérkezett foglalást
 * A felhasználó törölhet egy foglalást vagy egy felhasználót
-
+* A felhasználó kimutatásokat is kérhet le a lekérdezés oldalon
