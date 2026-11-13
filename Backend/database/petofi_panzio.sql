@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `szobak` (
     `szobaszam` VARCHAR(10) NOT NULL UNIQUE,
     `ferohely` INT NOT NULL,
     `ar_per_ej` INT NOT NULL,
-    `leiras` TEXT NULL,
+    `leiras` TEXT NOT NULL,
     `allapot` ENUM('szabad', 'foglalt', 'takaritas_alatt') DEFAULT 'szabad'
 );
 
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `etelek` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `nev` VARCHAR(150) NOT NULL,
     `kategoria` ENUM('reggeli', 'ebed', 'vacsora') NOT NULL,
-    `leiras` TEXT NULL,
+    `leiras` TEXT NOT NULL,
     `ar` INT NOT NULL
 );
 
