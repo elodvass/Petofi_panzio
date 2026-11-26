@@ -1,0 +1,109 @@
+@BASE_URL = http://localhost:3000
+@ADMIN_EMAIL = admin@petofi.hu
+@ADMIN_JELSZO = admin123
+@VENDEG_EMAIL = teszt.vendeg@example.com
+@VENDEG_JELSZO = vendeg123
+
+### Gyökér végpont tesztelése (GET /) (200 OK)
+GET {{BASE_URL}}/
+
+### Adatbázis kapcsolat és API státusz tesztelése (GET /api/status) (200 OK)
+GET {{BASE_URL}}/api/status
+
+### Összes szoba lekérdezése (GET /api/szobak) (200 OK)
+GET {{BASE_URL}}/api/szobak
+
+### Teljes étlap lekérdezése (GET /api/etelek) (200 OK)
+GET {{BASE_URL}}/api/etelek
+
+### Sikeres bejelentkezés - Admin felhasználó email címmel (POST /api/auth/login) (200 OK)
+POST {{BASE_URL}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{ADMIN_EMAIL}}",
+  "jelszo": "{{ADMIN_JELSZO}}"
+}
+
+### Sikertelen bejelentkezés - Admin hibás jelszóval (várhatóan 401 Hiba)
+POST {{BASE_URL}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{ADMIN_EMAIL}}",
+  "jelszo": "rosszjelszo"
+}
+
+### Sikertelen bejelentkezés - Nem létező email címmel (várhatóan 401 Hiba)
+POST {{BASE_URL}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "nem.letezik@example.com",
+  "jelszo": "jelszo123"
+}
+
+### Sikertelen bejelentkezés - Hiányzó mezők validáció (várhatóan 400 Hiba)
+POST {{BASE_URL}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{ADMIN_EMAIL}}"
+}
+
+### Új vendég felhasználó regisztrációja (POST /api/auth/register) (201 Created)
+POST {{BASE_URL}}/api/auth/register
+Content-Type: application/json
+
+{
+  "nev": "Teszt Vendég",
+  "email": "{{VENDEG_EMAIL}}",
+  "jelszo": "{{VENDEG_JELSZO}}"
+}
+
+### Sikeres bejelentkezés - Újonnan regisztrált vendég felhasználóval (POST /api/auth/login) (200 OK)
+POST {{BASE_URL}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{VENDEG_EMAIL}}",
+  "jelszo": "{{VENDEG_JELSZO}}"
+}
+
+### Sikertelen bejelentkezés - Vendég hibás jelszóval (várhatóan 401 Hiba)
+POST {{BASE_URL}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{VENDEG_EMAIL}}",
+  "jelszo": "rosszjelszo"
+}
+
+### Sikertelen regisztráció - Már létező admin email cím (várhatóan 409 Hiba)
+POST {{BASE_URL}}/api/auth/register
+Content-Type: application/json
+
+{
+  "nev": "Másik Admin",
+  "email": "{{ADMIN_EMAIL}}",
+  "jelszo": "jelszo123"
+}
+
+### Sikertelen regisztráció - Már létező vendég email cím (várhatóan 409 Hiba)
+POST {{BASE_URL}}/api/auth/register
+Content-Type: application/json
+
+{
+  "nev": "Dupla Vendég",
+  "email": "{{VENDEG_EMAIL}}",
+  "jelszo": "{{VENDEG_JELSZO}}"
+}
+
+### Sikertelen regisztráció - Hiányzó mezők validáció (várhatóan 400 Hiba)
+POST {{BASE_URL}}/api/auth/register
+Content-Type: application/json
+
+{
+  "nev": "Hiányos Adat",
+  "email": "hianyos@example.com"
+}
