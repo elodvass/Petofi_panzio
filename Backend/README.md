@@ -1,14 +1,15 @@
 # Petőfi Panzió - Backend
 
-Node.js és Express.js alapú backend a Petőfi Panzió projekt számára.
+Node.js, Express.js és SQLite alapú backend a Petőfi Panzió projekt számára.
 
 ## Mappaszerkezet
 
 - `server/`
   - `server.js`: Az Express webszerver és API végpontok.
-  - `db.js`: MySQL adatbázis-kapcsolat (pool).
+  - `db.js`: SQLite adatbázis-kapcsolat és automatikus inicializálás.
 - `database/`
-  - `petofi_panzio.sql`: Adatbázis létrehozó és mintaadatokat feltöltő SQL script.
+  - `petofi_panzio.sql`: SQLite adatbázis séma és mintaadatok.
+  - `petofi_panzio.sqlite`: Az első indításkor automatikusan létrejövő SQLite adatbázisfájl.
 - `.env.example`: Környezeti változók mintája.
 
 ## Telepítés és Futtatás
@@ -18,13 +19,15 @@ Node.js és Express.js alapú backend a Petőfi Panzió projekt számára.
    npm install
    ```
 
-2. `.env` fájl létrehozása (a `.env.example` alapján, szükség esetén a jelszó módosításával):
+2. (Opcionális) `.env` fájl létrehozása a `.env.example` alapján, ha egyedi portot vagy adatbázis-elérési utat szeretnél megadni:
    ```bash
    cp .env.example .env
    ```
 
-3. Adatbázis importálása:
-   - Nyisd meg a phpMyAdmin-t vagy a MySQL munkafelületet, és futtasd le a `database/petofi_panzio.sql` szkriptet.
+3. Adatbázis inicializálása:
+   - Nem igényel külön MySQL szervert vagy phpMyAdmin importot!
+   - A szerver első indításakor automatikusan létrehozza a `database/petofi_panzio.sqlite` fájlt és betölti a `database/petofi_panzio.sql` tábláit és mintaadatait.
+   - Ha tiszta adatbázissal szeretnél újrakezdeni, egyszerűen töröld a `database/petofi_panzio.sqlite` fájlt és indítsd újra a szervert.
 
 4. Szerver indítása:
    ```bash

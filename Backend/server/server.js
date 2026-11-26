@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const crypto = require('crypto');
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 const db = require('./db');
 
@@ -39,7 +40,7 @@ app.get('/', (req, res) => {
 app.get('/api/status', async (req, res) => {
     try {
         const [rows] = await db.query('SELECT 1 + 1 AS solution');
-        res.json({ status: 'ok', db: 'connected', result: rows[0].solution });
+        res.json({ status: 'ok', db: 'connected', engine: 'sqlite', result: rows[0].solution });
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message });
     }
@@ -56,8 +57,11 @@ app.post('/api/auth/register', async (req, res) => {
             return res.status(400).json({ message: 'Minden mező kitöltése kötelező!' });
         }
 
+        const trimmedName = nev.trim();
+        const normalizedEmail = email.trim().toLowerCase();
+
         // Ellenőrizzük, hogy létezik-e már az email
-        const [existing] = await db.query('SELECT id FROM felhasznalok WHERE email = ?', [email]);
+        const [existing] = await db.query('SELECT id FROM felhasznalok WHERE email = ?', [normalizedEmail]);
         if (existing.length > 0) {
             return res.status(409).json({ message: 'Ezzel az email címmel már regisztráltak!' });
         }
@@ -66,15 +70,15 @@ app.post('/api/auth/register', async (req, res) => {
         // Szándékosan 'vendeg' szerepkörrel rögzítjük
         const [result] = await db.query(
             'INSERT INTO felhasznalok (nev, email, jelszo, szerepkor) VALUES (?, ?, ?, ?)',
-            [nev.trim(), email.trim().toLowerCase(), hashedPassword, 'vendeg']
+            [trimmedName, normalizedEmail, hashedPassword, 'vendeg']
         );
 
         res.status(201).json({
             message: 'Sikeres regisztráció!',
             user: {
                 id: result.insertId,
-                nev: nev.trim(),
-                email: email.trim().toLowerCase(),
+                nev: trimmedName,
+                email: normalizedEmail,
                 szerepkor: 'vendeg'
             }
         });
@@ -135,14 +139,29 @@ app.get('/api/szobak', async (req, res) => {
 // Étlap listázása
 app.get('/api/etelek', async (req, res) => {
     try {
-        const [rows] = await db.query('SELECT * FROM etelek ORDER BY kategoria ASC');
+        const [rows] = await db.query(`
+            SELECT * FROM etelek
+            ORDER BY CASE kategoria
+                WHEN 'reggeli' THEN 1
+                WHEN 'ebed' THEN 2
+                WHEN 'vacsora' THEN 3
+                ELSE 4
+            END ASC, id ASC
+        `);
         res.json(rows);
     } catch (error) {
         res.status(500).json({ message: 'Nem sikerült lekérni az ételeket.' });
     }
 });
 
-// Szerver indítása
-app.listen(PORT, () => {
-    console.log(`🚀 Szerver fut a következő címen: http://localhost:${PORT}`);
-});
+// Szerver indítása az adatbázis inicializálása után
+db.ready
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log(`🚀 Szerver fut a következő címen: http://localhost:${PORT}`);
+        });
+    })
+    .catch((err) => {
+        console.error('❌ A szerver nem indult el adatbázis-hiba miatt:', err.message);
+        process.exit(1);
+    });
