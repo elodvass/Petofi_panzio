@@ -7,14 +7,16 @@ const dbPath = process.env.DB_PATH
     ? path.resolve(__dirname, '..', process.env.DB_PATH)
     : path.resolve(__dirname, '../database/petofi_panzio.sqlite');
 
-const schemaPath = path.resolve(__dirname, '../database/petofi_panzio.sqlite');
-
-fs.mkdirSync(path.dirname(dbPath), { recursive: true });
-
 let rawDb;
 
 const ready = new Promise((resolve, reject) => {
-    rawDb = new sqlite3.Database(dbPath, (err) => {
+    if (!fs.existsSync(dbPath)) {
+        const missingErr = new Error(`Az SQLite adatbázisfájl nem található: ${dbPath}`);
+        console.error('❌', missingErr.message);
+        return reject(missingErr);
+    }
+
+    rawDb = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
         if (err) {
             console.error('❌ Nem sikerült megnyitni az SQLite adatbázist:', err.message);
             return reject(err);
@@ -34,25 +36,14 @@ const ready = new Promise((resolve, reject) => {
                         return reject(checkErr);
                     }
 
-                    if (row) {
-                        console.log(`✅ Sikeres kapcsolat az SQLite adatbázissal: ${dbPath}`);
-                        return resolve(rawDb);
+                    if (!row) {
+                        const schemaErr = new Error(`Az SQLite adatbázis nem tartalmazza a szükséges táblákat: ${dbPath}`);
+                        console.error('❌', schemaErr.message);
+                        return reject(schemaErr);
                     }
 
-                    try {
-                        const initSql = fs.readFileSync(schemaPath, 'utf8');
-                        rawDb.exec(initSql, (execErr) => {
-                            if (execErr) {
-                                console.error('❌ Hiba az SQLite adatbázis inicializálásakor:', execErr.message);
-                                return reject(execErr);
-                            }
-                            console.log(`✅ SQLite adatbázis létrehozva és feltöltve: ${dbPath}`);
-                            resolve(rawDb);
-                        });
-                    } catch (readErr) {
-                        console.error('❌ Nem sikerült beolvasni az SQL szkriptet:', readErr.message);
-                        reject(readErr);
-                    }
+                    console.log(`✅ Sikeres kapcsolat az SQLite adatbázissal: ${dbPath}`);
+                    resolve(rawDb);
                 }
             );
         });

@@ -19,8 +19,10 @@ const etelek = ref([])
 const loadingData = ref(true)
 const bookingNotice = ref('')
 
-// API alap URL
-const API_URL = 'http://localhost:3000/api'
+// API alap URL (helyben localhost:3000, code-server proxy alatt /proxy/3000/api)
+const API_URL = window.location.pathname.startsWith('/absproxy/') || window.location.pathname.startsWith('/proxy/')
+  ? '/proxy/3000/api'
+  : `${window.location.protocol}//${window.location.hostname}:3000/api`
 
 // Felhasználó betöltése localStorage-ból
 onMounted(async () => {
