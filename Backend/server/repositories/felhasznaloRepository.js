@@ -1,5 +1,9 @@
 const { Felhasznalo } = require('../models');
 
+async function findById(id) {
+    return Felhasznalo.findByPk(id);
+}
+
 async function findByEmail(email) {
     return Felhasznalo.findOne({
         where: { email }
@@ -23,6 +27,7 @@ async function createUser({ nev, email, jelszo, szerepkor = 'vendeg' }) {
 }
 
 module.exports = {
+    findById,
     findByEmail,
     findIdByEmail,
     createUser

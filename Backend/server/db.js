@@ -25,7 +25,10 @@ const sequelize = new Sequelize({
 const REQUIRED_TABLES = [
     'felhasznalok',
     'szobak',
+    'felszerelesek',
+    'szoba_felszerelesek',
     'etelek',
+    'napi_menuk',
     'foglalasok',
     'etkezesi_rendelesek'
 ];

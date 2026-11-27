@@ -10,11 +10,61 @@ GET {{BASE_URL}}/
 ### Adatbázis kapcsolat és API státusz tesztelése (GET /api/status) (200 OK)
 GET {{BASE_URL}}/api/status
 
-### Összes szoba lekérdezése (GET /api/szobak) (200 OK)
+### Felszerelések listázása (GET /api/felszerelesek) (200 OK)
+GET {{BASE_URL}}/api/felszerelesek
+
+### Összes szoba lekérdezése felszerelésekkel (GET /api/szobak) (200 OK)
 GET {{BASE_URL}}/api/szobak
 
-### Teljes étlap lekérdezése (GET /api/etelek) (200 OK)
+### Szobák lekérdezése pontos dátumra (GET /api/szobak?erkezes=...&tavozas=...) (200 OK)
+GET {{BASE_URL}}/api/szobak?erkezes=2026-12-01&tavozas=2026-12-03
+
+### Teljes étlap lekérdezése opciókkal (GET /api/etelek) (200 OK)
 GET {{BASE_URL}}/api/etelek
+
+### Adott nap fix reggeli, A/B ebéd és fix vacsora menüje (GET /api/napi-menu) (200 OK)
+GET {{BASE_URL}}/api/napi-menu?datum=2026-11-27
+
+### Több napos időszak napi menüi (GET /api/napi-menu?erkezes=...&tavozas=...) (200 OK)
+GET {{BASE_URL}}/api/napi-menu?erkezes=2026-11-27&tavozas=2026-11-29
+
+### Foglalások listázása étkezésekkel (GET /api/foglalasok) (200 OK)
+GET {{BASE_URL}}/api/foglalasok
+
+### Új foglalás pontos dátumra + napi étkezések (max 5/kategória/nap) (POST /api/foglalasok) (201 Created)
+POST {{BASE_URL}}/api/foglalasok
+Content-Type: application/json
+
+{
+  "felhasznalo_id": 2,
+  "szoba_id": 1,
+  "erkezes_datum": "2026-11-28",
+  "tavozas_datum": "2026-11-30",
+  "vendegek_szama": 2,
+  "etkezesek": [
+    { "datum": "2026-11-28", "etel_id": 8, "adag": 2 },
+    { "datum": "2026-11-29", "etel_id": 1, "adag": 2 },
+    { "datum": "2026-11-29", "etel_id": 2, "adag": 3 },
+    { "datum": "2026-11-29", "etel_id": 3, "adag": 2 },
+    { "datum": "2026-11-29", "etel_id": 4, "adag": 2 }
+  ]
+}
+
+### Hibás foglalás - Ebéd A + B együtt meghaladja az 5 adagot (várhatóan 400 Hiba)
+POST {{BASE_URL}}/api/foglalasok
+Content-Type: application/json
+
+{
+  "felhasznalo_id": 2,
+  "szoba_id": 2,
+  "erkezes_datum": "2026-11-28",
+  "tavozas_datum": "2026-11-30",
+  "vendegek_szama": 2,
+  "etkezesek": [
+    { "datum": "2026-11-29", "etel_id": 2, "adag": 3 },
+    { "datum": "2026-11-29", "etel_id": 3, "adag": 3 }
+  ]
+}
 
 ### Sikeres bejelentkezés - Admin felhasználó email címmel (POST /api/auth/login) (200 OK)
 POST {{BASE_URL}}/api/auth/login

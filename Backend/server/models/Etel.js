@@ -20,6 +20,14 @@ module.exports = (sequelize) => {
                     isIn: [['reggeli', 'ebed', 'vacsora']]
                 }
             },
+            opcio: {
+                type: DataTypes.ENUM('fix', 'A', 'B'),
+                allowNull: false,
+                defaultValue: 'fix',
+                validate: {
+                    isIn: [['fix', 'A', 'B']]
+                }
+            },
             leiras: {
                 type: DataTypes.TEXT,
                 allowNull: false
@@ -31,7 +39,17 @@ module.exports = (sequelize) => {
         },
         {
             tableName: 'etelek',
-            timestamps: false
+            timestamps: false,
+            validate: {
+                opcioEgyezikKategoriaval() {
+                    if ((this.kategoria === 'reggeli' || this.kategoria === 'vacsora') && this.opcio !== 'fix') {
+                        throw new Error('Reggeli és vacsora esetén az opció csak "fix" lehet.');
+                    }
+                    if (this.kategoria === 'ebed' && !['A', 'B'].includes(this.opcio)) {
+                        throw new Error('Ebéd esetén az opció csak "A" vagy "B" lehet.');
+                    }
+                }
+            }
         }
     );
 };
